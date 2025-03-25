@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with GPT-3.5 Turbo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Chat with GPT-3.5 Turbo</h1>
+    <div id="chatbox">
+        <p class="assistant">Assistant: {{ assistant_message }}</p>
+    </div>
+    <input id="input" type="text" size="80">
+    <input type="submit" value="Submit" onclick="getBotResponse()">
+</body>
+<script>
+function getBotResponse() {
+    var rawText = $("#input").val();
+    var userHtml = '<p class="user">You: ' + rawText + "</p>";
+    $("#chatbox").append(userHtml);
+    $("#input").val("");
+    $.get("/get", { msg: rawText }).done(function(data) {
+        var botHtml = '<p class="assistant">Assistant: ' + data + "</p>";
+        $("#chatbox").append(botHtml);
+    });
+}
+</script>
+<style>
+.assistant {color: blue;}
+.user {color: red;}
+</style>
+</html>

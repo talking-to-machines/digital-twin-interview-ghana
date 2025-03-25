@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with GPT-3.5 Turbo</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F0F0F0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #666;
+        }
+        #chatbox {
+            width: 80%;
+            height: 70vh;
+            border: 1px solid #DDD;
+            border-radius: 15px;
+            padding: 20px;
+            background-color: #FFF;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        .assistant {
+            color: #0000FF;
+            background-color: #E8E8FF;
+            border-radius: 10px;
+            padding: 10px;
+            display: inline-block;
+            max-width: 80%;
+        }
+        .user {
+            color: #FF0000;
+            background-color: #FFE8E8;
+            border-radius: 10px;
+            padding: 10px;
+            display: inline-block;
+            max-width: 80%;
+            margin-left: 20%;
+        }
+        #chatForm {
+            display: flex;
+            justify-content: center;
+        }
+        #input {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #DDD;
+            border-radius: 10px;
+        }
+        #submit {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            margin-left: 10px;
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+        #submit:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat with GPT-3.5 Turbo</h1>
+    <div id="chatbox">
+        <p class="assistant">Assistant: {{ assistant_message }}</p>
+    </div>
+    <form id="chatForm">
+        <input id="input" type="text" size="80">
+        <input id="submit" type="submit" value="Submit">
+    </form>
+</body>
+<script>
+    $("#chatForm").on("submit", function(e) {
+        e.preventDefault();
+        getBotResponse();
+    });
+
+    function getBotResponse() {
+      var rawText = $("#input").val();
+      var userHtml = '<p class="user">You: ' + rawText + "</p>";
+      $("#chatbox").append(userHtml);
+      $("#input").val("");
+      $.get("/get", { msg: rawText }).done(function(data) {
+          var botHtml = '<p class="assistant">Assistant: </p>';
+          $("#chatbox").append(botHtml);
+          var i = 0;
+          var intervalId = setInterval(function() {
+              $(".assistant:last").append(data.charAt(i));
+              i++;
+              if (i > data.length) {
+                  clearInterval(intervalId);
+              }
+          }, 10); // delay between each character
+      });
+    }
+</script>
+</html>
