@@ -1,11 +1,12 @@
 # login
 heroku login
+
 # get db url
-heroku config:get DATABASE_URL -a your_app_name
-heroku config:get DATABASE_URL -a sa-study
-# postgres://u1af0qlitounr0:p1758653c07a8e0b33e57de1f527cc22119a397dddab3e882eac3f948b8632aab@ccba8a0vn4fb2p.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/daq92vaeh9tgiq
+heroku config:get DATABASE_URL -a digital-twin-interview-ghana  # your_app_name
+
 # login to db
-heroku pg:psql -a sa-study # your_app_name
+heroku pg:psql -a digital-twin-interview-ghana # your_app_name
+
 # create table
 CREATE TABLE conversation_logs (
   user_id text,
