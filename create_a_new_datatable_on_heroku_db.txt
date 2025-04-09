@@ -7,10 +7,67 @@ heroku config:get DATABASE_URL -a digital-twin-interview-ghana  # your_app_name
 # login to db
 heroku pg:psql -a digital-twin-interview-ghana # your_app_name
 
-# create table
+# create table for logging conversations
 CREATE TABLE conversation_logs (
-  user_id text,
-  message text,
-  response text,
-  timestamp timestamp
+  user_id TEXT,
+  message TEXT,
+  response TEXT,
+  timestamp TIMESTAMP
+);
+
+# create table for logging survey responses
+CREATE TABLE survey_responses (
+    user_id              TEXT,
+    last_name            TEXT,
+    id_card              TEXT,
+    phone_number         TEXT,
+    phone_owner          TEXT,
+    phone_number_backup  TEXT,
+    consent_social_media TEXT,
+    twitter              TEXT,
+    tiktok               TEXT,
+    ethnicity            TEXT,
+    ethnicity_other      TEXT,
+    Q1_1                 TEXT,
+    Q1_2                 TEXT,
+    Q1_3                 TEXT,
+    Q1_4                 TEXT,
+    Q1_5                 TEXT,
+    Q1_6                 TEXT,
+    Q1_7                 TEXT,
+    Q1_8                 TEXT,
+    Q2                   TEXT,
+    Q3_1                 TEXT,
+    Q3_2                 TEXT,
+    Q3_3                 TEXT,
+    Q3_4                 TEXT,
+    Q3_5                 TEXT,
+    Q4_1                 TEXT,
+    Q4_2                 TEXT,
+    Q4_3                 TEXT,
+    Q4_4                 TEXT,
+    Q5_1                 TEXT,
+    Q5_2                 TEXT,
+    Q5_3                 TEXT,
+    Q6_2                 TEXT,
+    Q6_3                 TEXT,
+    Q6_4                 TEXT,
+    Q6_5                 TEXT,
+    Q6_6                 TEXT,
+    Q6_8                 TEXT,
+    open_video           TEXT,
+    Q8_6                 TEXT,
+    Q8_2                 TEXT,
+    Q8_4                 TEXT,
+    Q8_5                 TEXT,
+    Q240                 TEXT,
+    Q241                 TEXT,
+    Q239                 TEXT,
+    Q8_8                 TEXT,
+    Q242                 TEXT,
+    Q243                 TEXT,
+    Q244                 TEXT,
+    Q8_9                 TEXT,
+    Q8_7                 TEXT,
+    timestamp            TIMESTAMP
 );
