@@ -338,7 +338,7 @@ def home():
 
     # Check if user has already undergone the survey
     past_survey_responses = load_survey_responses(session_user_id)
-    logging.info(f"past_survey_responses: {past_survey_responses}")
+    logging.info(f"past_survey_responses from {past_survey_responses['user_id']}: {len(past_interview_responses)}")
 
     # Extract system prompt template and replace placeholders with request arguments
     if past_survey_responses:  # Subsequent round of interview

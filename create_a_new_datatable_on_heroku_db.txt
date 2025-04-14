@@ -17,6 +17,7 @@ CREATE TABLE conversation_logs (
 
 # create table for logging survey responses
 CREATE TABLE survey_responses (
+    email_recontact      TEXT,
     user_id              TEXT,
     last_name            TEXT,
     id_card              TEXT,
