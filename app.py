@@ -332,13 +332,14 @@ def summarise_interview_responses(
 def home():
     # Define the user id
     session_user_id = request.args.get("user_id", "test_id")  # whatever the querystring is
-    # if session_user_id == "":
-    #     session_user_id = str(uuid4())
     logging.info(f"session_user_id: {session_user_id}")
 
     # Check if user has already undergone the survey
     past_survey_responses = load_survey_responses(session_user_id)
-    logging.info(f"past_survey_responses from {past_survey_responses['user_id']}: {len(past_interview_responses)}")
+    if past_survey_responses:
+        logging.info(f"past_survey_responses from {past_survey_responses['user_id']}: {len(past_interview_responses)}")
+    else:
+        logging.info("No past survey responses found.")
 
     # Extract system prompt template and replace placeholders with request arguments
     if past_survey_responses:  # Subsequent round of interview
