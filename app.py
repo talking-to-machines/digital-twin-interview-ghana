@@ -4,8 +4,6 @@ import os
 import psycopg2
 from psycopg2 import sql
 from datetime import datetime
-from uuid import uuid4
-import re
 
 import logging  # Add this import
 
@@ -330,13 +328,17 @@ def summarise_interview_responses(
 @app.route("/", methods=["GET", "POST"])
 def home():
     # Define the user id
-    session_user_id = request.args.get("user_id", "test_id")  # whatever the querystring is
+    session_user_id = request.args.get(
+        "user_id", "test_id"
+    )  # whatever the querystring is
     logging.info(f"session_user_id: {session_user_id}")
 
     # Check if user has already undergone the survey
     past_survey_responses = load_survey_responses(session_user_id)
     if past_survey_responses:
-        logging.info(f"past_survey_responses from {past_survey_responses['user_id']}: {len(past_survey_responses)}")
+        logging.info(
+            f"past_survey_responses from {past_survey_responses['user_id']}: {len(past_survey_responses)}"
+        )
     else:
         logging.info("No past survey responses found.")
 
@@ -360,8 +362,9 @@ def home():
 
             # Replace placeholders in system_prompt with survey responses collected from previous rounds
             for question, response in past_survey_responses.items():
-                # system_prompt = system_prompt.replace(f"@{question}", response)
-                system_prompt = re.sub(rf"\s*{re.escape(f'@{question}')}\s*", response, system_prompt)
+                system_prompt = system_prompt.replace(
+                    f" @{question}\n", f" {response}\n"
+                )
 
     else:  # Initial round of interview
         with open("prompts/system_prompt_initial_interview.txt", "r") as file:
@@ -372,8 +375,7 @@ def home():
     # Retrieve request arguments and replace placeholders in system_prompt
     for placeholder, arg_name in prompt_placeholders.items():
         value = request.args.get(arg_name, "NA")
-        # system_prompt = system_prompt.replace(placeholder, value)
-        system_prompt = re.sub(rf"\s*{re.escape(placeholder)}\s*", value, system_prompt)
+        system_prompt = system_prompt.replace(f" {placeholder}\n", f" {value}\n")
 
     logging.info(f"system_prompt: {system_prompt}")
     session_messages = [
@@ -399,10 +401,11 @@ def home():
 def get_bot_response():
     # Get the user's message and id
     user_text = request.args.get("msg")
-    session_user_id = request.args.get("user_id", "test_id")  # whatever the querystring is
-    # logging.info(f"user_text: {user_text}")
+    session_user_id = request.args.get(
+        "user_id", "test_id"
+    )  # whatever the querystring is
     logging.info(f"session_user_id: {session_user_id}")
-    
+
     # Read conversation from database and append user message
     session_messages = load_conversation(session_user_id)
     session_messages += [{"role": "user", "content": user_text}]
