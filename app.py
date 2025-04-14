@@ -302,7 +302,6 @@ def query_llm(messages: list) -> str:
     )
 
     interviewer_response = response["choices"][0]["message"]["content"]
-    # logging.info(f"interviewer_response: {interviewer_response}")
     return interviewer_response
 
 
@@ -337,7 +336,7 @@ def home():
     # Check if user has already undergone the survey
     past_survey_responses = load_survey_responses(session_user_id)
     if past_survey_responses:
-        logging.info(f"past_survey_responses from {past_survey_responses['user_id']}: {len(past_interview_responses)}")
+        logging.info(f"past_survey_responses from {past_survey_responses['user_id']}: {len(past_survey_responses)}")
     else:
         logging.info("No past survey responses found.")
 
@@ -362,7 +361,7 @@ def home():
             # Replace placeholders in system_prompt with survey responses collected from previous rounds
             for question, response in past_survey_responses.items():
                 # system_prompt = system_prompt.replace(f"@{question}", response)
-                system_prompt = re.sub(rf"\b{re.escape(f'@{question}')}\b", response, system_prompt)
+                system_prompt = re.sub(rf"\s*{re.escape(f'@{question}')}\s*", response, system_prompt)
 
     else:  # Initial round of interview
         with open("prompts/system_prompt_initial_interview.txt", "r") as file:
@@ -374,7 +373,7 @@ def home():
     for placeholder, arg_name in prompt_placeholders.items():
         value = request.args.get(arg_name, "NA")
         # system_prompt = system_prompt.replace(placeholder, value)
-        system_prompt = re.sub(rf"\b{re.escape(placeholder)}\b", value, system_prompt)
+        system_prompt = re.sub(rf"\s*{re.escape(placeholder)}\s*", value, system_prompt)
 
     logging.info(f"system_prompt: {system_prompt}")
     session_messages = [
