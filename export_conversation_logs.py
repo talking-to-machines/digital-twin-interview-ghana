@@ -8,7 +8,7 @@ import os
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 
-def get_all_conversations():
+def export_conversation_logs():
     conn = psycopg2.connect(DATABASE_URL, sslmode="require")
     df = pd.read_sql_query(
         "SELECT * FROM conversation_logs ORDER BY timestamp ASC", con=conn
@@ -17,5 +17,5 @@ def get_all_conversations():
     return df
 
 
-conversations = get_all_conversations()
-conversations.to_csv("data/conversations.csv", index=False)
+conversation_logs = export_conversation_logs()
+conversation_logs.to_csv("data/conversation_logs.csv", index=False)

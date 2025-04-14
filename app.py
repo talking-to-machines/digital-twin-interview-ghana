@@ -29,6 +29,7 @@ TEMPERATURE = 1.0
 # Prompt placeholders and their corresponding request arguments
 prompt_placeholders = {
     # Admin - Respondent Identification
+    "@email_recontact": "email_recontact",
     "@last_name": "last_name",
     "@id_card": "id_card",
     "@phone_number": "phone_number",
@@ -75,8 +76,8 @@ prompt_placeholders = {
     "@Q6_6": "Q6_6",  # Your anxiety / depression TODAY
     "@Q6_8": "Q6_8",  # Please tap on the scale how your health is TODAY
     # Video Questions
-    "@open_video": "open_video",  # We would like to get you thoughts about giving vaccinations at an early age to children. In your own words could you tell us whether you think this is a good idea. Are there real benefits to doing this? Are there any risks?
     "@Q8_6": "Q8_6",  # What was the topic of the video?
+    "@open_video": "open_video",  # We would like to get you thoughts about giving vaccinations at an early age to children. In your own words could you tell us whether you think this is a good idea. Are there real benefits to doing this? Are there any risks?
     "@Q8_2": "Q8_2",  # Please indicate how much you agree or disagree with the following statement: The content of the video is convincing.
     "@Q8_4": "Q8_4",  # Please indicate how much you agree or disagree with the following statement: The content of the video is clear.
     "@Q8_5": "Q8_5",  # Please indicate how much you agree or disagree with the following statement: The content of the video is accurate.
