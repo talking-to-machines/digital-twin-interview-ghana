@@ -5,6 +5,7 @@ import psycopg2
 from psycopg2 import sql
 from datetime import datetime
 from uuid import uuid4
+import re
 
 import logging  # Add this import
 
@@ -210,6 +211,7 @@ def log_conversation(user_id, message, response):
     conn.commit()
     cur.close()
     conn.close()
+    logging.info(f"Conversation logged successfully: {response}")
 
 
 def log_survey_responses(user_id: str, survey_responses) -> None:
@@ -286,6 +288,7 @@ def log_survey_responses(user_id: str, survey_responses) -> None:
     finally:
         cur.close()
         conn.close()
+        logging.info(f"user_id logged successfully: {user_id}")
 
 
 def query_llm(messages: list) -> str:
@@ -297,8 +300,9 @@ def query_llm(messages: list) -> str:
         presence_penalty=0.6,
     )
 
-    llm_response = response["choices"][0]["message"]["content"]
-    return llm_response
+    interviewer_response = response["choices"][0]["message"]["content"]
+    logging.info(f"interviewer_response: {interviewer_response}")
+    return interviewer_response
 
 
 def summarise_interview_responses(
@@ -355,7 +359,8 @@ def home():
 
             # Replace placeholders in system_prompt with survey responses collected from previous rounds
             for question, response in past_survey_responses.items():
-                system_prompt = system_prompt.replace(f"Q{question}", response)
+                # system_prompt = system_prompt.replace(f"@{question}", response)
+                system_prompt = re.sub(rf"\b{re.escape(f"@{question}")}\b", response, system_prompt)
 
     else:  # Initial round of interview
         with open("prompts/system_prompt_initial_interview.txt", "r") as file:
@@ -366,9 +371,8 @@ def home():
     # Retrieve request arguments and replace placeholders in system_prompt
     for placeholder, arg_name in prompt_placeholders.items():
         value = request.args.get(arg_name, "NA")
-
-        if value:
-            system_prompt = system_prompt.replace(placeholder, value)
+        # system_prompt = system_prompt.replace(placeholder, value)
+        system_prompt = re.sub(rf"\b{re.escape(placeholder)}\b", value, system_prompt)
 
     logging.info(f"system_prompt: {system_prompt}")
     session_messages = [
@@ -378,7 +382,6 @@ def home():
 
     # Get the assistant's response
     assistant_response = query_llm(messages=session_messages)
-    logging.info(f"assistant_response: {assistant_response}")
     session_messages += [{"role": "assistant", "content": assistant_response}]
 
     # Write to database
@@ -396,7 +399,9 @@ def get_bot_response():
     # Get the user's message and id
     user_text = request.args.get("msg")
     session_user_id = request.args.get("user_id", "")  # whatever the querystring is
-
+    logging.info(f"user_text: {user_text}")
+    logging.info(f"session_user_id: {session_user_id}")
+    
     # Read conversation from database and append user message
     session_messages = load_conversation(session_user_id)
     session_messages += [{"role": "user", "content": user_text}]
@@ -406,7 +411,7 @@ def get_bot_response():
     session_messages = session_messages + [
         {"role": "assistant", "content": model_message}
     ]
-    
+
     for message in session_messages:
         logging.info(f"{message['role']}: {message['content']}")
 
