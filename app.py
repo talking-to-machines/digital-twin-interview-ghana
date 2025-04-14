@@ -6,6 +6,18 @@ from psycopg2 import sql
 from datetime import datetime
 from uuid import uuid4
 
+import logging  # Add this import
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,  # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    format="%(asctime)s - %(levelname)s - %(message)s",  # Log format
+    handlers=[
+        logging.StreamHandler(),  # Log to console
+        logging.FileHandler("app.log", mode="a"),  # Log to a file (append mode)
+    ],
+)
+
 app = Flask(__name__)
 
 # Local or Heroku
@@ -23,8 +35,8 @@ openai.api_key = os.getenv(
 )  # Make sure to set this environment variable
 
 # Local Settings
-GPT_MODEL = "gpt-4o-mini"
-TEMPERATURE = 1.0
+GPT_MODEL = "gpt-4o"
+TEMPERATURE = 0.0
 
 # Prompt placeholders and their corresponding request arguments
 prompt_placeholders = {
@@ -317,9 +329,11 @@ def home():
     session_user_id = request.args.get("user_id", "")  # whatever the querystring is
     if session_user_id == "":
         session_user_id = str(uuid4())
+    logging.info(f"session_user_id: {session_user_id}")
 
     # Check if user has already undergone the survey
     past_survey_responses = load_survey_responses(session_user_id)
+    logging.info(f"past_survey_responses: {past_survey_responses}")
 
     # Extract system prompt template and replace placeholders with request arguments
     if past_survey_responses:  # Subsequent round of interview
@@ -356,7 +370,7 @@ def home():
         if value:
             system_prompt = system_prompt.replace(placeholder, value)
 
-    print(f"System Prompt: {system_prompt}")
+    logging.info(f"system_prompt: {system_prompt}")
     session_messages = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": "Hello"},
@@ -364,6 +378,7 @@ def home():
 
     # Get the assistant's response
     assistant_response = query_llm(messages=session_messages)
+    logging.info(f"assistant_response: {assistant_response}")
     session_messages += [{"role": "assistant", "content": assistant_response}]
 
     # Write to database
@@ -391,6 +406,9 @@ def get_bot_response():
     session_messages = session_messages + [
         {"role": "assistant", "content": model_message}
     ]
+    
+    for message in session_messages:
+        logging.info(f"{message['role']}: {message['content']}")
 
     # Log the conversation to the database
     log_conversation(session_user_id, user_text, model_message)

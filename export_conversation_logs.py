@@ -11,7 +11,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 def export_conversation_logs():
     conn = psycopg2.connect(DATABASE_URL, sslmode="require")
     df = pd.read_sql_query(
-        "SELECT * FROM conversation_logs ORDER BY timestamp ASC", con=conn
+        "SELECT * FROM conversation_logs ORDER BY timestamp ASC;", con=conn
     )
     conn.close()
     return df

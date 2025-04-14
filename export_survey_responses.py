@@ -11,7 +11,7 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 def export_suvery_responses():
     conn = psycopg2.connect(DATABASE_URL, sslmode="require")
     df = pd.read_sql_query(
-        "SELECT * FROM survey_responses ORDER BY timestamp ASC", con=conn
+        "SELECT * FROM survey_responses ORDER BY timestamp ASC;", con=conn
     )
     conn.close()
     return df
