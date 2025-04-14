@@ -220,11 +220,12 @@ def log_survey_responses(user_id: str, survey_responses) -> None:
         cur = conn.cursor()
 
         insert = sql.SQL(
-            "INSERT INTO survey_responses (user_id, last_name, id_card, phone_number, phone_owner, phone_number_backup, consent_social_media, twitter, tiktok, ethnicity, ethnicity_other, Q1_1, Q1_2, Q1_3, Q1_4, Q1_5, Q1_6, Q1_7, Q1_8, Q2, Q3_1, Q3_2, Q3_3, Q3_4, Q3_5, Q4_1, Q4_2, Q4_3, Q4_4, Q5_1, Q5_2, Q5_3, Q6_2, Q6_3, Q6_4, Q6_5, Q6_6, Q6_8, open_video, Q8_6, Q8_2, Q8_4, Q8_5, Q240, Q241, Q239, Q8_8, Q242, Q243, Q244, Q8_9, Q8_7, timestamp) "
-            "VALUES (%s, %s, %s, %s)"
+            "INSERT INTO survey_responses (user_id, email_recontact, last_name, id_card, phone_number, phone_owner, phone_number_backup, consent_social_media, twitter, tiktok, ethnicity, ethnicity_other, Q1_1, Q1_2, Q1_3, Q1_4, Q1_5, Q1_6, Q1_7, Q1_8, Q2, Q3_1, Q3_2, Q3_3, Q3_4, Q3_5, Q4_1, Q4_2, Q4_3, Q4_4, Q5_1, Q5_2, Q5_3, Q6_2, Q6_3, Q6_4, Q6_5, Q6_6, Q6_8, open_video, Q8_6, Q8_2, Q8_4, Q8_5, Q240, Q241, Q239, Q8_8, Q242, Q243, Q244, Q8_9, Q8_7, timestamp) "
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         )
         data = (
             user_id,
+            survey_responses.args.get("email_recontact", ""),
             survey_responses.args.get("last_name", ""),
             survey_responses.args.get("id_card", ""),
             survey_responses.args.get("phone_number", ""),
@@ -301,7 +302,7 @@ def query_llm(messages: list) -> str:
     )
 
     interviewer_response = response["choices"][0]["message"]["content"]
-    logging.info(f"interviewer_response: {interviewer_response}")
+    # logging.info(f"interviewer_response: {interviewer_response}")
     return interviewer_response
 
 
@@ -330,9 +331,9 @@ def summarise_interview_responses(
 @app.route("/", methods=["GET", "POST"])
 def home():
     # Define the user id
-    session_user_id = request.args.get("user_id", "")  # whatever the querystring is
-    if session_user_id == "":
-        session_user_id = str(uuid4())
+    session_user_id = request.args.get("user_id", "test_id")  # whatever the querystring is
+    # if session_user_id == "":
+    #     session_user_id = str(uuid4())
     logging.info(f"session_user_id: {session_user_id}")
 
     # Check if user has already undergone the survey
@@ -360,7 +361,7 @@ def home():
             # Replace placeholders in system_prompt with survey responses collected from previous rounds
             for question, response in past_survey_responses.items():
                 # system_prompt = system_prompt.replace(f"@{question}", response)
-                system_prompt = re.sub(rf"\b{re.escape(f"@{question}")}\b", response, system_prompt)
+                system_prompt = re.sub(rf"\b{re.escape(f'@{question}')}\b", response, system_prompt)
 
     else:  # Initial round of interview
         with open("prompts/system_prompt_initial_interview.txt", "r") as file:
@@ -398,8 +399,8 @@ def home():
 def get_bot_response():
     # Get the user's message and id
     user_text = request.args.get("msg")
-    session_user_id = request.args.get("user_id", "")  # whatever the querystring is
-    logging.info(f"user_text: {user_text}")
+    session_user_id = request.args.get("user_id", "test_id")  # whatever the querystring is
+    # logging.info(f"user_text: {user_text}")
     logging.info(f"session_user_id: {session_user_id}")
     
     # Read conversation from database and append user message
