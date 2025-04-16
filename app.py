@@ -374,7 +374,8 @@ def home():
 
     # Retrieve request arguments and replace placeholders in system_prompt
     for placeholder, arg_name in prompt_placeholders.items():
-        value = request.args.get(arg_name, "NA")
+        value = request.args.get(arg_name, "NA")  # TODO remove
+        logging.info(f"type of {arg_name}: {type(value)}")
         system_prompt = system_prompt.replace(f" {placeholder}\n", f" {value}\n")
 
     logging.info(f"system_prompt: {system_prompt}")
