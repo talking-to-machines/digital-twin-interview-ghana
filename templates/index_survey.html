@@ -56,7 +56,11 @@ $("#chatForm").on("submit", function(e) {
 
 $("#done-button").on("click", function(e) {
     e.preventDefault(); // prevent any default action
-    window.parent.postMessage("done",'*');
+    const message = {
+        type: "done",
+        status: "complete"
+    };
+    window.parent.postMessage(message,'*');
 });
 
 
