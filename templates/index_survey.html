@@ -79,7 +79,7 @@ function getBotResponse() {
     // Move the loading div to the end and show it
     $("#loading").appendTo("#chatbox").show(); 
 
-  $.get("/get", { msg: rawText, id: userID }).done(function(data) {
+  $.get("/get", { msg: rawText, user_id: userID }).done(function(data) {
     var botHtml = '<p class="assistant">' + data + '</p>';
     $("#chatbox").append(botHtml);
     // Hide loading spinner
