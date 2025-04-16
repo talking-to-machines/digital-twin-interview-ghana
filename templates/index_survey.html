@@ -30,7 +30,7 @@
     <form id="chatForm">
         <input id="input" type="text" size="80" placeholder="Please respond here">
         <input type="submit" value="Send">
-        <button id="done-button">Done</button>
+        <button id="done-button" type="button">Done</button>
     </form>
     
     
@@ -39,7 +39,7 @@
 <script>
     let turnCount = 0;
     let maxTurns = 15;
-    let maxTime = 300000;
+    let maxTime = 1800000; // 30 minutes in milliseconds
     let userID = "{{ user_id }}";
 
 
@@ -47,7 +47,7 @@ function scrollToBottom() {
     $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
 }
 
-setTimeout(function(){ window.parent.postMessage("data",'*'); }, maxTime);
+setTimeout(function(){ window.parent.postMessage({type: "timeout"},"*"); }, maxTime);
 
 $("#chatForm").on("submit", function(e) {
     e.preventDefault();
@@ -56,11 +56,7 @@ $("#chatForm").on("submit", function(e) {
 
 $("#done-button").on("click", function(e) {
     e.preventDefault(); // prevent any default action
-    const message = {
-        type: "done",
-        status: "complete"
-    };
-    window.parent.postMessage(message,'*');
+    window.parent.postMessage({type: "done"},"*");
 });
 
 

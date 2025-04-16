@@ -337,7 +337,7 @@ def home():
     past_survey_responses = load_survey_responses(session_user_id)
     if past_survey_responses:
         logging.info(
-            f"past_survey_responses from {past_survey_responses['user_id']}: {len(past_survey_responses)}"
+            f"past_survey_responses from {past_survey_responses['user_id']} extracted successfully"
         )
     else:
         logging.info("No past survey responses found.")
@@ -374,8 +374,7 @@ def home():
 
     # Retrieve request arguments and replace placeholders in system_prompt
     for placeholder, arg_name in prompt_placeholders.items():
-        value = request.args.get(arg_name, "NA")  # TODO remove
-        logging.info(f"type of {arg_name}: {type(value)}")
+        value = request.args.get(arg_name, "NA")
         system_prompt = system_prompt.replace(f" {placeholder}\n", f" {value}\n")
 
     logging.info(f"system_prompt: {system_prompt}")
