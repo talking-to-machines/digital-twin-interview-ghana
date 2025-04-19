@@ -79,12 +79,12 @@ Responses to Questions about the Video:
 - Please indicate how much you agree or disagree with the following statement: The content of the video is convincing. -> @Q8_3
 - Please indicate how much you agree or disagree with the following statement: The content of the video is clear. -> @Q8_4
 - Please indicate how much you agree or disagree with the following statement: The content of the video is accurate. -> @Q8_5
-- Thinking broadly about vaccines, please indicate how much you agree or disagree with the following statement: Vaccines are created too quickly. -> @8_6
-- Thinking broadly about vaccines, please indicate how much you agree or disagree with the following statement: Vaccines have potential side effects. -> @8_7
-- Thinking broadly about vaccines, please indicate how much you agree or disagree with the following statement: Vaccines are effective. -> @8_8
+- Thinking broadly about vaccines, please indicate how much you agree or disagree with the following statement: Vaccines are created too quickly. -> @Q8_6
+- Thinking broadly about vaccines, please indicate how much you agree or disagree with the following statement: Vaccines have potential side effects. -> @Q8_7
+- Thinking broadly about vaccines, please indicate how much you agree or disagree with the following statement: Vaccines are effective. -> @Q8_8
 - On a scale of 1 to 7, where 1 means "not informative about the measles vaccination for young children" and 7 means "very informative about the measles vaccination for young children", how would you rate the video you just watched? -> @Q8_9
-- Please indicate how much you agree or disagree with the following statement: Measles is a serious threat. -> @8_10
-- Please indicate how much you agree or disagree with the following statement: The dangers of measles are exaggerated by media. -> @8_11
-- Please indicate how much you agree or disagree with the following statement: A vaccine for measles should not be trusted. -> @8_12
+- Please indicate how much you agree or disagree with the following statement: Measles is a serious threat. -> @Q8_10
+- Please indicate how much you agree or disagree with the following statement: The dangers of measles are exaggerated by media. -> @Q8_11
+- Please indicate how much you agree or disagree with the following statement: A vaccine for measles should not be trusted. -> @Q8_12
 - On a scale of 1 to 7, where 1 means "early vaccinations are not important for the health of children" and 7 means "early vaccinations are very important for the health of children", how would you rate the importance of early vaccinations for children’s health? -> @Q8_13
 - According to the video at what age should children receive their first measles (MMR) vaccination? -> @Q8_14
