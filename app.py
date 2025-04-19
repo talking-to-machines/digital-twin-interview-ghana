@@ -545,11 +545,11 @@ def inject_survey_response_prompt(system_prompt: str, country: str) -> str:
         with open("prompts/ghana_survey_response_prompt.txt", "r") as file:
             survey_response_prompt = file.read()
 
-    if country == "United Kingdom":
+    elif country == "United Kingdom":
         with open("prompts/uk_survey_response_prompt.txt", "r") as file:
             survey_response_prompt = file.read()
 
-    if country == "United States":
+    elif country == "United States":
         with open("prompts/us_survey_response_prompt.txt", "r") as file:
             survey_response_prompt = file.read()
 
