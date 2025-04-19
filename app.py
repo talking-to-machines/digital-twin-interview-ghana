@@ -578,8 +578,10 @@ def home():
         logging.error(
             "User ID or country is not provided. Defaulting to 'test_id' and 'Ghana', respectively."
         )
-        session_user_id = "test_id"
-        country = "Ghana"
+        session_user_id = "273642" # TODO remove
+        country = "Ghana"  # TODO remove
+        # session_user_id = "test_id"
+        # country = "Ghana"
     logging.info(f"session_user_id, country: {session_user_id, country}")
 
     # Check if user has already undergone the survey
@@ -674,8 +676,10 @@ def get_bot_response():
         logging.error(
             "User ID or country is not provided. Defaulting to 'test_id' and 'Ghana', respectively."
         )
-        session_user_id = "test_id"
-        country = "Ghana"
+        session_user_id = "273642" # TODO remove
+        country = "Ghana"  # TODO remove
+        # session_user_id = "test_id"
+        # country = "Ghana"
     logging.info(
         f"session_user_id, country, user_text: {session_user_id, country, user_text}"
     )
