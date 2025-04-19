@@ -554,7 +554,9 @@ def inject_survey_response_prompt(system_prompt: str, country: str) -> str:
             survey_response_prompt = file.read()
 
     else:
-        raise RuntimeError(f"Country type {country} not supported.")
+        logging.info(f"Country information is not provided. Defaulting to country=Ghana system prompt...")
+        with open("prompts/ghana_survey_response_prompt.txt", "r") as file:
+            survey_response_prompt = file.read()
 
     system_prompt = system_prompt.replace(
         "@survey_response_prompt", survey_response_prompt
