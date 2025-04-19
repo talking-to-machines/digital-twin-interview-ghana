@@ -149,6 +149,48 @@ prompt_placeholders = {
     "@Q8_14": "Q8_14",
 }
 
+capitalisation_mapping = {
+    "uk_region":"UK_region",
+    "uk_district":"UK_district",
+    "us_state":"US_state",
+    "us_county":"US_county",
+    "q1_1":"Q1_1",
+    "q1_2":"Q1_2",
+    "q1_3":"Q1_3",
+    "q1_4":"Q1_4",
+    "q1_5":"Q1_5",
+    "q1_6":"Q1_6",
+    "q1_7":"Q1_7",
+    "q1_8":"Q1_8",
+    "q2":"Q2",
+    "q3_1":"Q3_1",
+    "q3_2":"Q3_2",
+    "q3_3":"Q3_3",
+    "q3_4":"Q3_4",
+    "q3_5":"Q3_5",
+    "q4_2":"Q4_2",
+    "q4_3":"Q4_3",
+    "q6_2":"Q6_2",
+    "q6_3":"Q6_3",
+    "q6_4":"Q6_4",
+    "q6_5":"Q6_5",
+    "q6_6":"Q6_6",
+    "q6_8":"Q6_8",
+    "q8_2":"Q8_2",
+    "q8_3":"Q8_3",
+    "q8_4":"Q8_4",
+    "q8_5":"Q8_5",
+    "q8_6":"Q8_6",
+    "q8_7":"Q8_7",
+    "q8_8":"Q8_8",
+    "q8_9":"Q8_9",
+    "q8_10":"Q8_10",
+    "q8_11":"Q8_11",
+    "q8_12":"Q8_12",
+    "q8_13":"Q8_13",
+    "q8_14":"Q8_14",
+}
+
 
 def load_conversation(user_id: str, country: str) -> list:
     """Load and retrieve a user's conversation history from the database.
@@ -282,6 +324,11 @@ def load_survey_responses(user_id: str, country: str) -> dict:
 
                 # Get column names from the cursor description
                 column_names = [desc[0] for desc in cur.description]
+            
+                # Align capitalisation of column names between database and arguments
+                column_names = [
+                    capitalisation_mapping.get(name, name) for name in column_names
+                ]
 
                 # Format the row into a dictionary
                 survey_response_dict = dict(zip(column_names, row))
