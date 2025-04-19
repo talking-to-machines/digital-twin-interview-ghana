@@ -660,6 +660,7 @@ def home():
         "index_survey.html",
         assistant_message=assistant_response,
         user_id=session_user_id,
+        country=country,
     )
 
 
