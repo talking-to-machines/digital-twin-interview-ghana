@@ -175,6 +175,7 @@ def load_conversation(user_id: str, country: str) -> list:
     SELECT 
         'user' AS role, 
         message AS content, 
+        country,
         timestamp 
     FROM conversation_logs 
     WHERE 
@@ -200,6 +201,7 @@ def load_conversation(user_id: str, country: str) -> list:
     SELECT 
         'assistant' AS role, 
         response AS content, 
+        country,
         timestamp 
     FROM conversation_logs 
     WHERE 
@@ -554,7 +556,9 @@ def inject_survey_response_prompt(system_prompt: str, country: str) -> str:
             survey_response_prompt = file.read()
 
     else:
-        logging.info(f"Country information is not provided. Defaulting to country=Ghana system prompt...")
+        logging.info(
+            f"Country information is not provided. Defaulting to country=Ghana system prompt..."
+        )
         with open("prompts/ghana_survey_response_prompt.txt", "r") as file:
             survey_response_prompt = file.read()
 
@@ -568,10 +572,14 @@ def inject_survey_response_prompt(system_prompt: str, country: str) -> str:
 @app.route("/", methods=["GET", "POST"])
 def home():
     # Extract user id and country
-    session_user_id = request.args.get(
-        "user_id", "test_id"
-    )  # whatever the querystring is
-    country = request.args.get("country", "NA")
+    session_user_id = request.args.get("user_id", "")  # whatever the querystring is
+    country = request.args.get("country", "")
+    if not session_user_id or not country:
+        logging.error(
+            "User ID or country is not provided. Defaulting to 'test_id' and 'Ghana', respectively."
+        )
+        session_user_id = "test_id"
+        country = "Ghana"
     logging.info(f"session_user_id, country: {session_user_id, country}")
 
     # Check if user has already undergone the survey
@@ -659,10 +667,14 @@ def home():
 def get_bot_response():
     # Get the user's message, id, and country
     user_text = request.args.get("msg")
-    session_user_id = request.args.get(
-        "user_id", "test_id"
-    )  # whatever the querystring is
-    country = request.args.get("country", "NA")
+    session_user_id = request.args.get("user_id", "")  # whatever the querystring is
+    country = request.args.get("country", "")
+    if not session_user_id or not country:
+        logging.error(
+            "User ID or country is not provided. Defaulting to 'test_id' and 'Ghana', respectively."
+        )
+        session_user_id = "test_id"
+        country = "Ghana"
     logging.info(
         f"session_user_id, country, user_text: {session_user_id, country, user_text}"
     )
