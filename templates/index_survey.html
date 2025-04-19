@@ -41,6 +41,7 @@
     let maxTurns = 30;
     let maxTime = 1800000; // 30 minutes in milliseconds
     let userID = "{{ user_id }}";
+    let countr = "{{ country }}";
 
 
 function scrollToBottom() {
@@ -75,7 +76,7 @@ function getBotResponse() {
     // Move the loading div to the end and show it
     $("#loading").appendTo("#chatbox").show(); 
 
-  $.get("/get", { msg: rawText, user_id: userID }).done(function(data) {
+  $.get("/get", { msg: rawText, user_id: userID, country: country }).done(function(data) {
     var botHtml = '<p class="assistant">' + data + '</p>';
     $("#chatbox").append(botHtml);
     // Hide loading spinner
