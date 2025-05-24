@@ -1,14 +1,22 @@
-You will be given a transcript of a conversation between an AI interviewer (assistant) and an interviewee (user). The conversation unfolds in a question-and-answer format as shown below:
-
+You will receive a transcript of an interview between an AI interviewer (labelled “assistant”) and an interviewee (labelled “user”). The dialogue may span several “waves,” each following a question-and-answer format as shown below:
 assistant: [poses an interview question]
-user: [offers an initial response]
+user (Wave Number): [offers an initial response]
 assistant: [asks follow-up questions]
-user: [provides follow-up answers]
+user (Wave Number): [provides follow-up response]
 
-Instruction:
-Succinctly summarize the interviewee’s responses based on the four questions provided below, using brief bullet points to capture the interviewee’s core thoughts in a clear and concise manner without additional commentary or interpretation. Focus only on the interviewee’s (user) responses:
+YOUR TASK
+1. Read the questions posed by the AI interviewer (“assistant”) and group similar or re-phrased questions into a few high-level topics.
+2. For each topic identified, summarize the interviewee's responses and express them in a clear and concise manner using bullet points.
 
-1. Can you tell me about your thoughts and feelings when you hear people talk about vaccinations for things like measles or smallpox?
-2. Have you ever come across information—online or in conversation—that made you doubt the safety or purpose of vaccines? What did you think about it?
-3. Do you think there are groups or organizations that were trying to influence people’s decisions about vaccines? If so, what do you think their goals were?
-4. When you think about decisions around getting vaccinated—whether for yourself or for your children—what factors come to mind?
+OUTPUT FORMAT
+Topic A
+- Bullet point A1
+- Bullet point A2
+Topic B
+- Bullet point B1
+- Bullet point B2
+
+CONSTRAINTS
+- Do not provide additional commentary or interpretation; only paraphrase the interviewee’s words.
+- Do not quote large blocks verbatim; rephrase succinctly.
+- Maintain clarity, neutrality, and brevity throughout.

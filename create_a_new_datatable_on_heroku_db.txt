@@ -1,25 +1,31 @@
-# login
+# Login to Heroku
 heroku login
 
-# get db url
+# Get database URL
 heroku config:get DATABASE_URL -a digital-twin-interview-ghana  # your_app_name
 
-# login to db
+# Login to Heroku database
 heroku pg:psql -a digital-twin-interview-ghana # your_app_name
 
-# create table for logging conversations
+# List all tables in database
+\dt
+
+# Create table for logging conversations
 CREATE TABLE IF NOT EXISTS conversation_logs (
   user_id TEXT,
   country TEXT,
+  wave TEXT,
   message TEXT,
   response TEXT,
   timestamp TIMESTAMP
 );
 
-# create table for logging survey responses
+# Create table for logging survey responses
 CREATE TABLE IF NOT EXISTS survey_responses (
     user_id TEXT,
     country TEXT,
+    wave TEXT,
+    treatment TEXT,
     email_recontact TEXT,
     first_name TEXT,
     last_name TEXT,
@@ -34,20 +40,26 @@ CREATE TABLE IF NOT EXISTS survey_responses (
     tiktok TEXT,
     ethnicity TEXT,
     ethnicity_other TEXT,
+    gender_other TEXT,
     UK_region TEXT,
     UK_district TEXT,
     US_state TEXT,
     US_county TEXT,
+    Ghana_region TEXT,
+    Ghana_district TEXT,
     zip TEXT,
     Q1_1 TEXT,
     Q1_2 TEXT,
-    gender_other TEXT,
+    religiosity TEXT,
+    religion TEXT,
     Q1_3 TEXT,
     Q1_4 TEXT,
     Q1_5 TEXT,
     Q1_6 TEXT,
     Q1_7 TEXT,
     Q1_8 TEXT,
+    has_children TEXT,
+    children_age TEXT,
     Q2 TEXT,
     Q3_1 TEXT,
     Q3_2 TEXT,
@@ -118,3 +130,21 @@ CREATE TABLE IF NOT EXISTS survey_responses (
     Q8_14 TEXT,
     timestamp TIMESTAMP
 );
+
+# Select records from table storing conversation logs
+SELECT * FROM conversation_logs ORDER BY timestamp ASC;
+
+# Select records from table storing survey responses
+SELECT * FROM survey_responses ORDER BY timestamp ASC;
+
+# Delete all records in table storing conversation logs
+DELETE FROM conversation_logs;
+
+# Delete all records in table storing survey responses
+DELETE FROM survey_responses;
+
+# Drop table storing conversation logs
+DROP TABLE conversation_logs;
+
+# Drop table storing survey responses
+DROP TABLE survey_responses;

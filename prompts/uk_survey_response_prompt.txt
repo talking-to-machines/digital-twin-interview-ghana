@@ -1,13 +1,17 @@
-Survey Responses (Demographics, Social Network, Media Use, Health, Trust, TB EQ-5D):
+**Survey Responses about Demographics, Social Network, Media Use, Health Conditions, Trust in Different Groups, and Self-reported TB EQ-5D:**
 - What country do you reside in? -> @country
 - Please enter your Twitter handle here: -> @twitter
 - Please enter your TikTok handle here: -> @tiktok
-- Which ethnicity best describes you? -> @ethnicity
+- To which of these groups do you consider you belong? -> @ethnicity
 - What is your current age? -> @Q1_1
 - What is your gender? -> @Q1_2
 - If the selected gender is "Other", please specify your gender: -> @gender_other
+- Do you consider yourself as belonging to any particular religion or denomination? -> @religiosity
+- If the response to the previous question is "Yes", please specify your religion: -> @religion
 - What is the highest educational or work-related qualification you have? -> @Q1_7
 - Do you live with a spouse or partner? -> @Q1_8
+- Do you have any children? -> @has_children
+- If the response to the previous question is "Yes", which of the following age groups do your children currently fall into? Please select all that apply. -> @children_age
 - Select the region you live in: -> @UK_region
 - Select the district you live in: -> @UK_district
 - Enter the first part (2, 3 or 4 digits) of your post code. -> @zip
@@ -35,22 +39,22 @@ Survey Responses (Demographics, Social Network, Media Use, Health, Trust, TB EQ-
 - Thinking now about health matters, please indicate your familiarity with Shingles: -> @familiarity_shingles
 - Do you have any of the following underlying health conditions? Please select all that apply. -> @Q4_2
 - How is your health in general? Is it… -> @Q4_3
-- I have felt cheerful and in good spirits -> @wellbeing_cheerful
-- I have felt calm and relaxed -> @wellbeing_calm
-- I have felt active and vigorous -> @wellbeing_active
-- I woke up feeling fresh and rested -> @wellbeing_fresh
-- My daily life has been filled with things that interest me -> @wellbeing_interested
+- Please indicate which is closest to how you have been feeling over the last two weeks. Notice that higher numbers mean better well-being: I have felt cheerful and in good spirits -> @wellbeing_cheerful
+- Please indicate which is closest to how you have been feeling over the last two weeks. Notice that higher numbers mean better well-being: I have felt calm and relaxed -> @wellbeing_calm
+- Please indicate which is closest to how you have been feeling over the last two weeks. Notice that higher numbers mean better well-being: I have felt active and vigorous -> @wellbeing_active
+- Please indicate which is closest to how you have been feeling over the last two weeks. Notice that higher numbers mean better well-being: I woke up feeling fresh and rested -> @wellbeing_fresh
+- Please indicate which is closest to how you have been feeling over the last two weeks. Notice that higher numbers mean better well-being: My daily life has been filled with things that interest me -> @wellbeing_interested
 - Please tap the statement that best describes your mobility TODAY -> @Q6_2
 - Please tap the statement that best describes your self-care TODAY -> @Q6_3
 - Please tap the statement that best describes your usual activities TODAY (e.g. work, study, housework, family or leisure activities) -> @Q6_4
 - Please tap the statement that best describes your pain / discomfort TODAY -> @Q6_5
 - Please tap the statement that best describes your anxiety / depression TODAY -> @Q6_6
-- Please tap on the scale how your health is TODAY -> @Q6_8
+- Please tap on the scale how your health is TODAY. 100 means the best health you can imagine. 0 means the worst health you can imagine. -> @Q6_8
 
-Video Transcript on Vaccination:
-“It’s really important to remember how effective vaccines are. They do prevent 5000 deaths a year in the UK and 100,000 hospitalizations. We’ll see babies at eight weeks, 12 weeks and at 16 weeks, we give them different vaccinations against a range of illnesses, and this offers the best protection. At one year, the child will have their first MMR vaccine, and so that gives them a lot of protection. And then at three years, four months, they have the second the booster MMR, and then that’s them for life, protected from measles, mumps and rubella. It really is of the utmost importance that you take us up on this offer and get your child vaccinated and keep everyone safe.”
+**Video Transcript on Vaccination:**
+@video_transcript
 
-Responses to Questions about the Video:
+**Responses to Questions about the Video:**
 - What was the topic of the video? -> @Q8_2
 - We would like to get your thoughts about giving vaccinations at an early age to children. In your own words could you tell us whether you think this is a good idea. Are there real benefits to doing this? Are there any risks? -> @open_video
 - Please indicate how much you agree or disagree with the following statement: The content of the video is convincing. -> @Q8_3
