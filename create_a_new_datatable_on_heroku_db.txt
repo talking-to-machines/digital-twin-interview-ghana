@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS conversation_logs (
   user_id TEXT,
   country TEXT,
   wave TEXT,
+  treatment TEXT,
   message TEXT,
   response TEXT,
   timestamp TIMESTAMP

@@ -423,7 +423,7 @@ def load_survey_responses(user_id: str, country: str) -> list:
 
 
 def log_conversation(
-    user_id: str, country: str, wave: str, message: str, response: str
+    user_id: str, country: str, wave: str, treatment: str, message: str, response: str
 ) -> None:
     """Logs a conversation entry into the database.
 
@@ -431,6 +431,7 @@ def log_conversation(
         user_id (str): The unique identifier for the user.
         country (str): The country associated with the user.
         wave (str): The wave number of the survey.
+        treatment (str): The treatment assigned to the user.
         message (str): The message sent by the user.
         response (str): The response generated for the user.
 
@@ -444,10 +445,10 @@ def log_conversation(
     cur = conn.cursor()
 
     insert = sql.SQL(
-        "INSERT INTO conversation_logs (user_id, country, wave, message, response, timestamp) "
-        "VALUES (%s, %s, %s, %s, %s, %s)"
+        "INSERT INTO conversation_logs (user_id, country, wave, treatment, message, response, timestamp) "
+        "VALUES (%s, %s, %s, %s, %s, %s, %s)"
     )
-    data = (user_id, country, wave, message, response, datetime.now())
+    data = (user_id, country, wave, treatment, message, response, datetime.now())
 
     cur.execute(insert, data)
     conn.commit()
@@ -812,51 +813,47 @@ def inject_video_transcript_interview_script(system_prompt: str, treatment: str)
                              "@video_transcript" and "@interview_script".
         treatment (str): The treatment type, which determines the specific video transcript
                          and interview script to use. Possible values are:
-                         - "Initial"
-                         - "Community Public Good"
-                         - "Counter Misinformation"
-                         - "Reinforce Positive Perspective"
-                         If an unrecognized treatment is provided, defaults to "Initial".
+                         - "Pilot (NIHR measles)"
+                         - "Community public good"
+                         - "Counter misinformation"
+                         - "Positive perspectives"
+                         If an unrecognized treatment is provided, defaults to "Pilot (NIHR measles)".
 
     Returns:
         str: The system prompt with the placeholders replaced by the corresponding
              video transcript and interview script content.
     """
-    if treatment == "Initial":
-        with open("prompts/video_transcript_initial.txt", "r") as file:
+    if treatment == "Pilot (NIHR measles)":
+        with open("prompts/video_transcript_pilot.txt", "r") as file:
             video_transcript = file.read()
-        with open("prompts/interview_script_initial.txt", "r") as file:
+        with open("prompts/interview_script_pilot.txt", "r") as file:
             interview_script = file.read()
 
-    elif treatment == "Community Public Good":
+    elif treatment == "Community public good":
         with open("prompts/video_transcript_communitypublicgood.txt", "r") as file:
             video_transcript = file.read()
         with open("prompts/interview_script_communitypublicgood.txt", "r") as file:
             interview_script = file.read()
 
-    elif treatment == "Counter Misinformation":
-        with open("prompts/video_transcript_countrermisinformation.txt", "r") as file:
+    elif treatment == "Counter misinformation":
+        with open("prompts/video_transcript_countermisinformation.txt", "r") as file:
             video_transcript = file.read()
-        with open("prompts/interview_script_countrermisinformation.txt", "r") as file:
+        with open("prompts/interview_script_countermisinformation.txt", "r") as file:
             interview_script = file.read()
 
-    elif treatment == "Reinforce Positive Perspective":
-        with open(
-            "prompts/video_transcript_reinforcepositiveperspective.txt", "r"
-        ) as file:
+    elif treatment == "Positive perspectives":
+        with open("prompts/video_transcript_positiveperspectives.txt", "r") as file:
             video_transcript = file.read()
-        with open(
-            "prompts/interview_script_reinforcepositiveperspective.txt", "r"
-        ) as file:
+        with open("prompts/interview_script_positiveperspectives.txt", "r") as file:
             interview_script = file.read()
 
     else:
         logging.info(
-            f"Treatment information is not provided. Defaulting to initial interview script..."
+            f"Treatment information is not provided. Defaulting to pilot interview script..."
         )
-        with open("prompts/video_transcript_initial.txt", "r") as file:
+        with open("prompts/video_transcript_pilot.txt", "r") as file:
             video_transcript = file.read()
-        with open("prompts/interview_script_initial.txt", "r") as file:
+        with open("prompts/interview_script_pilot.txt", "r") as file:
             interview_script = file.read()
 
     # Inject video transcript into system prompt
@@ -877,20 +874,20 @@ def home():
     treatment = request.args.get("treatment", "")
     if not session_user_id or not country or not wave or not treatment:
         logging.error(
-            "User ID, country, wave or treatment is not provided. Defaulting to 'test_id', 'Ghana', '1' and 'Initial', respectively, for testing purposes."
+            "User ID, country, wave or treatment is not provided. Defaulting to 'test_id', 'Ghana', '1' and 'Pilot (NIHR measles)', respectively, for testing purposes."
         )
         session_user_id = "test_id"
         country = "Ghana"
         wave = "1"
-        treatment = "Initial"
+        treatment = "Pilot (NIHR measles)"
     logging.info(
         f"session_user_id, country, wave, treatment: {session_user_id, country, wave, treatment}"
     )
 
     # Extract system prompt template and replace placeholders with request arguments
-    if str(wave) == "1":  # Initial survey
-        logging.info("Initial interview.")
-        with open("prompts/system_prompt_initial_interview.txt", "r") as file:
+    if str(wave) == "1":  # Pilot survey
+        logging.info("Pilot interview.")
+        with open("prompts/system_prompt_pilot_interview.txt", "r") as file:
             system_prompt = file.read()
 
         # Inject survey response prompt template depending on country
@@ -973,6 +970,7 @@ def home():
         user_id=session_user_id,
         country=country,
         wave=wave,
+        treatment=treatment,
         message=system_prompt,
         response=assistant_response,
     )
@@ -997,12 +995,12 @@ def get_bot_response():
     treatment = request.args.get("treatment", "")
     if not session_user_id or not country or not wave or not treatment:
         logging.error(
-            "User ID, country, wave or treatment is not provided. Defaulting to 'test_id', 'Ghana', '1' and 'Initial', respectively, for testing purposes."
+            "User ID, country, wave or treatment is not provided. Defaulting to 'test_id', 'Ghana', '1' and 'Pilot (NIHR measles)', respectively, for testing purposes."
         )
         session_user_id = "test_id"
         country = "Ghana"
         wave = "1"
-        treatment = "Initial"
+        treatment = "Pilot (NIHR measles)"
     logging.info(
         f"session_user_id, country, wave, treatment: {session_user_id, country, wave, treatment}"
     )
@@ -1024,6 +1022,7 @@ def get_bot_response():
         user_id=session_user_id,
         country=country,
         wave=wave,
+        treatment=treatment,
         message=user_text,
         response=assistant_response,
     )
