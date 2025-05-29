@@ -876,9 +876,9 @@ def home():
         logging.error(
             "User ID, country, wave or treatment is not provided. Defaulting to 'test_id', 'Ghana', '1' and 'Pilot (NIHR measles)', respectively, for testing purposes."
         )
-        session_user_id = "test_id"
+        session_user_id = "693347"
         country = "Ghana"
-        wave = "1"
+        wave = "2"
         treatment = "Pilot (NIHR measles)"
     logging.info(
         f"session_user_id, country, wave, treatment: {session_user_id, country, wave, treatment}"
@@ -997,9 +997,9 @@ def get_bot_response():
         logging.error(
             "User ID, country, wave or treatment is not provided. Defaulting to 'test_id', 'Ghana', '1' and 'Pilot (NIHR measles)', respectively, for testing purposes."
         )
-        session_user_id = "test_id"
+        session_user_id = "693347"
         country = "Ghana"
-        wave = "1"
+        wave = "2"
         treatment = "Pilot (NIHR measles)"
     logging.info(
         f"session_user_id, country, wave, treatment: {session_user_id, country, wave, treatment}"
