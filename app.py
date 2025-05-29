@@ -239,7 +239,7 @@ def load_conversation(user_id: str, country: str, wave: str = "-1") -> list:
         WHERE 
             user_id = %s AND 
             message IS NOT NULL AND
-            country = %s AND
+            country = %s
         """
 
         # Execute the query for 'message'
